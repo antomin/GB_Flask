@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "gb-flask"
+version = "0.1.0"
+description = ""
+authors = ["antomin <anton.mindlin@gmail.com>"]
+readme = "README.md"
+packages = [{include = "gb_flask"}]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+flask = "^2.2.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
