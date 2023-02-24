@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Статьи{% endblock %}
+
+{% block body %}
+    <ul class="list-group list-group-flush">
+        {% for pk, post in posts.items() %}
+            <li class="list-group-item">
+                <a class="link-dark" href="{{ pk }}">
+                    {{ post['title'] }} <span class="fst-italic text-secondary">({{ users[post['author']] }})</span>
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
