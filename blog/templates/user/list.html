@@ -6,7 +6,10 @@
     <ul class="list-group list-group-flush">
         {% for user in users %}
             <li class="list-group-item">
-                <a class="link-dark" href="{{ user }}">{{ users[user] }}</a>
+                <a class="link-dark" href="{{ user.id }}">{{ user.username }}</a>
+                {% if user.is_staff %}
+                    <span class="badge bg-secondary">staff</span>
+                {% endif %}
             </li>
         {% endfor %}
     </ul>

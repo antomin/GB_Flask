@@ -4,11 +4,9 @@
 
 {% block body %}
     <ul class="list-group list-group-flush">
-        {% for pk, post in posts.items() %}
+        {% for post in posts %}
             <li class="list-group-item">
-                <a class="link-dark" href="{{ pk }}">
-                    {{ post['title'] }} <span class="fst-italic text-secondary">({{ users[post['author']] }})</span>
-                </a>
+                <a class="link-dark" href="{{ post.id }}">{{ post.title }}</a>
             </li>
         {% endfor %}
     </ul>
