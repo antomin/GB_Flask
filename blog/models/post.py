@@ -1,8 +1,8 @@
 from sqlalchemy import Boolean, Column, DateTime, ForeignKey, Integer, String
 from sqlalchemy.sql import func
 
-from blog.models import User
 from blog.models.database import db
+from blog.models.user import User
 
 
 class Post(db.Model):

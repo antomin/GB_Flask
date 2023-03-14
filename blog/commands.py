@@ -1,7 +1,7 @@
 from flask import Flask
 
-from blog.models import Post
 from blog.models.database import db
+from blog.models.post import Post
 
 LOREM_TEXT = 'Mauris ultrices vehicula nisl, ut finibus libero efficitur ac. Vivamus est nisi, condimentum nec tortor id, ' \
        'euismod interdum massa. Sed eros ex, rutrum eu tincidunt non, scelerisque at felis. Nam id nisi non lacus' \
@@ -17,7 +17,7 @@ def register_commands(app: Flask) -> None:
 
     @app.cli.command('fill-db')
     def fill_db():
-        from blog.models import User
+        from blog.models.user import User
 
         db.session.add_all([
             User(username='admin', email='admin@admin.ru', is_staff=True),
