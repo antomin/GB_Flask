@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_migrate import Migrate
 
 from blog.auth.view import auth, login_manager
 from blog.commands import register_commands
@@ -14,6 +15,7 @@ def create_app() -> Flask:
     register_commands(app)
     app.config.from_object(DevConfig)
     db.init_app(app)
+    migrate.init_app(app, db, compare_type=True)
     register_blueprints(app)
     login_manager.init_app(app)
     return app
