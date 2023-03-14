@@ -1,0 +1,28 @@
+version: '3.5'
+
+services:
+  app:
+    build:
+      dockerfile: ./Dockerfile
+      context: .
+    environment:
+      SQLALCHEMY_DATABASE_URI: postgresql://blog_db_user:blog_db_pass@pg:5432/blog_db
+      CONFIG_NAME: DevConfig
+    volumes:
+      - ./blog:/app/blog
+    ports:
+      - "5000:5000"
+    depends_on:
+      - pg
+
+  pg:
+    image: postgres:12
+    environment:
+      POSTGRES_DB: blog_db
+      POSTGRES_USER: blog_db_user
+      POSTGRES_PASSWORD: blog_db_pass
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - ${HOME}/PycharmProjects/GB_Flask/pg_data:/var/lib/postgresql/data/pgdata
+    ports:
+      - "5432:5432"
