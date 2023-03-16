@@ -1,7 +1,7 @@
 from sqlalchemy import Boolean, Column, DateTime, ForeignKey, Integer, String
 from sqlalchemy.sql import func
 
-from blog.models.database import db
+from blog.extensions import db
 from blog.models.user import User
 
 
