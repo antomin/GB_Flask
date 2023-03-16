@@ -2,18 +2,19 @@ from flask import Flask
 
 from blog.auth.view import auth, login_manager
 from blog.commands import register_commands
+from blog.config import DevConfig
 from blog.main.view import main
-from blog.models.database import db
+from blog.models.database import db, migrate
 from blog.post.views import post
 from blog.user.views import user
-from config import DevelopmentConfig
 
 
 def create_app() -> Flask:
     app = Flask(__name__)
     register_commands(app)
-    app.config.from_object(DevelopmentConfig)
+    app.config.from_object(DevConfig)
     db.init_app(app)
+    migrate.init_app(app, db, compare_type=True)
     register_blueprints(app)
     login_manager.init_app(app)
     return app
