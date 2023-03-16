@@ -1,11 +1,10 @@
 from flask import Flask
-from flask_migrate import Migrate
 
 from blog.auth.view import auth, login_manager
 from blog.commands import register_commands
 from blog.config import DevConfig
 from blog.main.view import main
-from blog.models.database import db
+from blog.models.database import db, migrate
 from blog.post.views import post
 from blog.user.views import user
 

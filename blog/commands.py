@@ -1,7 +1,8 @@
 from flask import Flask
+from werkzeug.security import generate_password_hash
 
+from blog.models import Post, User
 from blog.models.database import db
-from blog.models.post import Post
 
 LOREM_TEXT = 'Mauris ultrices vehicula nisl, ut finibus libero efficitur ac. Vivamus est nisi, condimentum nec tortor id, ' \
        'euismod interdum massa. Sed eros ex, rutrum eu tincidunt non, scelerisque at felis. Nam id nisi non lacus' \
@@ -17,13 +18,12 @@ def register_commands(app: Flask) -> None:
 
     @app.cli.command('fill-db')
     def fill_db():
-        from blog.models.user import User
 
         db.session.add_all([
-            User(username='admin', email='admin@admin.ru', is_staff=True),
-            User(username='alice', email='alice@admin.ru'),
-            User(username='bob', email='bob@admin.ru'),
-            User(username='charlie', email='charlie@admin.ru'),
+            User(username='admin', email='admin@admin.ru', is_staff=True, password=generate_password_hash('admin')),
+            User(username='alice', email='alice@admin.ru', password=generate_password_hash('alice')),
+            User(username='bob', email='bob@admin.ru', password=generate_password_hash('bob')),
+            User(username='charlie', email='charlie@admin.ru', password=generate_password_hash('charlie')),
 
             Post(title='Статья №1', text=LOREM_TEXT+'1', author=2),
             Post(title='Статья №2', text=LOREM_TEXT+'2', author=3),

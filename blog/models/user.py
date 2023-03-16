@@ -10,6 +10,7 @@ class User(db.Model, UserMixin):
     username = Column(String(80), unique=True, nullable=False)
     email = Column(String(150), unique=True, nullable=False)
     is_staff = Column(Boolean, nullable=False, default=False)
+    password = Column(String(255), nullable=False)
     created_at = Column(DateTime, default=func.now())
     updated_at = Column(DateTime, default=func.now(), onupdate=func.now())
 
