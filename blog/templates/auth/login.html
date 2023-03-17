@@ -1,34 +1,30 @@
 {% extends 'base.html' %}
+{% from "macro/formhelpers.html" import render_field %}
 
 {% block title %}Вход{% endblock %}
 
 {% block body %}
     <div class="text-center mt-4 m-auto login-container">
         <div class="form-signin m-auto">
+
+            {% if form.errors %}
+                {% for error, msg in form.errors.items() %}
+                    <div class="alert alert-danger" role="alert">{{ msg[0] }}</div>
+                {% endfor %}
+            {% endif %}
+
             <form method="post">
-                {% if error %}
-                    <div class="alert alert-danger" role="alert">
-                        {{ error }}
-                    </div>
-                {% endif %}
+                {{ form.csrf_token() }}
+
                 <h1 class="h3 mb-3 fw-normal">Вход:</h1>
 
-                <div class="form-floating">
-                    <input type="email" name="login" class="form-control" id="floatingInput" placeholder="name@example.com">
-                    <label for="floatingInput">Email</label>
-                </div>
-                <div class="form-floating">
-                    <input type="password" name="password" class="form-control" id="floatingPassword" placeholder="Password">
-                    <label for="floatingPassword">Пароль</label>
-                </div>
+                {% for field in ['email', 'password'] %}
+                    {{ render_field(form[field]) }}
+                {% endfor %}
 
-                {#                <div class="checkbox mb-3">#}
-                {#                    <label>#}
-                {#                        <input type="checkbox" value="remember-me"> Remember me#}
-                {#                    </label>#}
-                {#                </div>#}
-                <button class="w-100 btn btn-lg btn-primary mt-2" type="submit">Вход</button>
+                {{ form.submit(class="w-100 btn btn-lg btn-primary mt-2") }}
             </form>
+
         </div>
     </div>
 {% endblock %}

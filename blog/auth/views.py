@@ -2,10 +2,11 @@ from flask import Blueprint, redirect, render_template, request, url_for
 from flask_login import (LoginManager, current_user, login_required,
                          login_user, logout_user)
 from sqlalchemy.exc import IntegrityError
-from werkzeug.security import generate_password_hash
+from werkzeug.security import check_password_hash, generate_password_hash
 
 from blog.extensions import db
 from blog.forms import RegisterForm
+from blog.forms.auth import LoginForm
 from blog.models import User
 
 auth = Blueprint('auth', __name__, static_folder='static')
@@ -27,22 +28,22 @@ def unauthorized():
 
 @auth.route('/login', methods=['GET', 'POST'], endpoint='login')
 def login():
-    if request.method == 'GET':
-        return render_template('auth/login.html')
+    if current_user.is_authenticated:
+        return redirect('main.index')
 
-    email = request.form.get('login')
-    password = request.form.get('password')
+    form = LoginForm(request.form)
 
-    if not email:
-        return render_template('auth/login.html', error='Email или пароль не введены. Попробуйте снова.')
+    if request.method == 'POST' and form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).one_or_none()
 
-    user = User.query.filter_by(email=email).one_or_none()
+        if user and check_password_hash(user.password, form.password.data):
+            login_user(user)
+            return redirect(url_for('main.index'))
 
-    if not user:
-        return render_template('auth/login.html', error='Пользователь не найден. Попробуйте снова.')
+        form.submit.errors.append('Неверный логин или пароль.')
+        return render_template('auth/login.html', form=form)
 
-    login_user(user)
-    return redirect(url_for('main.index'))
+    return render_template('auth/login.html', form=form)
 
 
 @auth.route('/logout', endpoint='logout')
@@ -64,12 +65,8 @@ def register():
             form.email.errors.append('Пользователь с таким email уже существует!')
             return render_template('auth/registration.html', form=form)
 
-        new_user = User(
-            first_name=form.first_name.data,
-            last_name=form.last_name.data,
-            email=form.email.data,
-            password=generate_password_hash(form.password.data)
-        )
+        new_user = User(first_name=form.first_name.data, last_name=form.last_name.data, email=form.email.data,
+                        password=generate_password_hash(form.password.data))
 
         db.session.add(new_user)
 
@@ -77,6 +74,7 @@ def register():
             db.session.commit()
         except IntegrityError:
             form.submit.errors.append('Ошибка добавления пользователя.')
+            return render_template('auth/registration.html', form=form)
         else:
             login_user(new_user)
             return redirect(url_for('main.index'))
