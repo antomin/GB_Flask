@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ author.user.first_name }} {{ author.user.last_name }}{% endblock %}
+
+{% block body %}
+    <h1>{{ author.user.first_name }} {{ author.user.last_name }}</h1>
+    <h2>Статьи:</h2>
+    <p>TODO Список статей</p>
+{% endblock %}

@@ -71,8 +71,8 @@ def register():
 
         try:
             db.session.commit()
-        except IntegrityError:
-            form.submit.errors.append('Ошибка добавления пользователя.')
+        except IntegrityError as error:
+            form.submit.errors.append(error)
             return render_template('auth/registration.html', form=form)
         else:
             login_user(new_user)

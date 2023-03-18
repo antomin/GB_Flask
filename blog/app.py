@@ -1,6 +1,7 @@
 from flask import Flask
 
 from blog.auth.views import auth, login_manager
+from blog.author.views import author
 from blog.commands import register_commands
 from blog.config import DevConfig
 from blog.extensions import db, migrate
@@ -25,5 +26,6 @@ def register_extensions(app: Flask):
 
 def register_blueprints(app: Flask) -> None:
     app.register_blueprint(user)
+    app.register_blueprint(author)
     app.register_blueprint(auth)
     app.register_blueprint(main)
