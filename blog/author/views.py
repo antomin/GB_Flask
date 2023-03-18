@@ -5,7 +5,7 @@ from werkzeug.exceptions import NotFound
 
 from blog.extensions import db
 from blog.forms import RegisterAuthorForm
-from blog.models import Author
+from blog.models import Article, Author
 
 author = Blueprint('author', __name__, url_prefix='/authors', static_folder='../static')
 
@@ -13,17 +13,18 @@ author = Blueprint('author', __name__, url_prefix='/authors', static_folder='../
 @author.route('/')
 def author_list():
     authors = Author.query.all()
-    return render_template('user/list.html', authors=authors)
+    return render_template('author/list.html', authors=authors)
 
 
 @author.route('/<int:pk>')
 def get_author(pk: int):
     _author = Author.query.filter_by(id=pk).one_or_none()
+    articles = Article.query.filter_by(author_id=_author.id)
 
     if not _author:
         return NotFound('Автор не найден.')
 
-    return render_template('author/list.html', author=_author)
+    return render_template('author/detail.html', author=_author, articles=articles)
 
 
 @login_required
