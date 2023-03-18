@@ -1,0 +1,11 @@
+from sqlalchemy import Column, ForeignKey, Integer
+from sqlalchemy.orm import relationship
+
+from blog.extensions import db
+
+
+class Author(db.Model):
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    user_id = Column(Integer, ForeignKey('user.id'))
+
+    user = relationship('User', back_populates='author')

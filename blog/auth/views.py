@@ -5,8 +5,7 @@ from sqlalchemy.exc import IntegrityError
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from blog.extensions import db
-from blog.forms import RegisterForm
-from blog.forms.auth import LoginForm
+from blog.forms import LoginForm, RegisterForm
 from blog.models import User
 
 auth = Blueprint('auth', __name__, static_folder='static')
