@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Статьи{% endblock %}
+
+{% block body %}
+    <ul class="list-group list-group-flush">
+        {% for article in articles %}
+            <li class="list-group-item">
+                <a class="link-dark" href="{{ article.id }}">
+                    {{ article.title }} <u>({{ article.author.user.first_name }} {{ article.author.user.last_name }})</u>
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

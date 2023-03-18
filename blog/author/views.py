@@ -4,7 +4,7 @@ from sqlalchemy.exc import IntegrityError
 from werkzeug.exceptions import NotFound
 
 from blog.extensions import db
-from blog.forms import RegisterAuthor
+from blog.forms import RegisterAuthorForm
 from blog.models import Author
 
 author = Blueprint('author', __name__, url_prefix='/authors', static_folder='../static')
@@ -32,7 +32,7 @@ def create_author():
     if current_user.author:
         return redirect('main.index')
 
-    form = RegisterAuthor(request.form)
+    form = RegisterAuthorForm(request.form)
 
     if request.method == 'POST' and form.validate_on_submit():
         new_author = Author(user_id=current_user.id)

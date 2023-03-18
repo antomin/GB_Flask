@@ -1,5 +1,6 @@
 from flask import Flask
 
+from blog.article.views import article
 from blog.auth.views import auth, login_manager
 from blog.author.views import author
 from blog.commands import register_commands
@@ -29,3 +30,5 @@ def register_blueprints(app: Flask) -> None:
     app.register_blueprint(author)
     app.register_blueprint(auth)
     app.register_blueprint(main)
+    app.register_blueprint(article)
+
