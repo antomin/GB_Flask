@@ -4,6 +4,11 @@
 
 {% block body %}
     <h1>
-        Hello, {% if current_user.is_authenticated %}{{ current_user.username }}{% else %}Anon{% endif %}
+        Hello,
+        {% if current_user.is_authenticated %}
+            {{ current_user.first_name if current_user.first_name else current_user.email }}
+        {% else %}
+            Anon
+        {% endif %}
     </h1>
 {% endblock %}

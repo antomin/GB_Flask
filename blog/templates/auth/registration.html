@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% from "macro/formhelpers.html" import render_field %}
 
-{% block title %}Вход{% endblock %}
+{% block title %}Регистрация{% endblock %}
 
 {% block body %}
     <div class="text-center mt-4 m-auto login-container">
@@ -15,16 +15,14 @@
 
             <form method="post">
                 {{ form.csrf_token() }}
+                <h1 class="h3 mb-3 fw-normal">Регистрация:</h1>
 
-                <h1 class="h3 mb-3 fw-normal">Вход:</h1>
-
-                {% for field in ['email', 'password'] %}
+                {% for field in ['first_name', 'last_name', 'email', 'password', 'password_confirm'] %}
                     {{ render_field(form[field]) }}
                 {% endfor %}
 
                 {{ form.submit(class="w-100 btn btn-lg btn-primary mt-2") }}
             </form>
-
         </div>
     </div>
 {% endblock %}
