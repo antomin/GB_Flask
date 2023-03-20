@@ -5,8 +5,7 @@ from sqlalchemy.exc import IntegrityError
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from blog.extensions import db
-from blog.forms import RegisterForm
-from blog.forms.auth import LoginForm
+from blog.forms import LoginForm, RegisterForm
 from blog.models import User
 
 auth = Blueprint('auth', __name__, static_folder='static')
@@ -72,8 +71,8 @@ def register():
 
         try:
             db.session.commit()
-        except IntegrityError:
-            form.submit.errors.append('Ошибка добавления пользователя.')
+        except IntegrityError as error:
+            form.submit.errors.append(error)
             return render_template('auth/registration.html', form=form)
         else:
             login_user(new_user)

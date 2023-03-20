@@ -1,3 +1,5 @@
-from blog.forms.auth import RegisterForm
+from blog.forms.article import CreateArticleForm
+from blog.forms.auth import LoginForm, RegisterForm
+from blog.forms.author import RegisterAuthorForm
 
-__all__ = ['RegisterForm']
+__all__ = ['RegisterForm', 'LoginForm', 'RegisterAuthorForm', 'CreateArticleForm']

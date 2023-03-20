@@ -1,5 +1,6 @@
 from flask_login import UserMixin
 from sqlalchemy import Boolean, Column, DateTime, Integer, String
+from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 
 from blog.extensions import db
@@ -14,6 +15,8 @@ class User(db.Model, UserMixin):
     password = Column(String(255), nullable=False)
     created_at = Column(DateTime, default=func.now())
     updated_at = Column(DateTime, default=func.now(), onupdate=func.now())
+
+    author = relationship('Author', uselist=False, back_populates='user')
 
     def __repr__(self):
         return f'<User {self.id} {self.email}>'

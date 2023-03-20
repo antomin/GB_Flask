@@ -1,4 +1,5 @@
-from blog.models.post import Post
+from blog.models.article import Article
+from blog.models.author import Author
 from blog.models.user import User
 
-__all__ = ['User', 'Post']
+__all__ = ['User', 'Author', 'Article']

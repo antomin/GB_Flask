@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ article.title }}{% endblock %}
+
+{% block body %}
+
+    <div class="container-fluid py-5">
+        <h1 class="display-5 fw-bold">{{ article.title }}</h1>
+        <p class="col-md-8 fs-4">{{ article.text }}</p>
+        <div class="d-flex justify-content-between">
+            <p>
+                <a class="fst-italic text-secondary" href="/authors/{{ article.author.id }}">
+                    {{ article.author.user.first_name }} {{ article.author.user.last_name }}
+                </a>
+            </p>
+            <p class="fst-italic text-secondary">{{ article.updated_at }}</p>
+        </div>
+      </div>
+
+{% endblock %}

@@ -1,11 +1,12 @@
 from flask import Flask
 
+from blog.article.views import article
 from blog.auth.views import auth, login_manager
+from blog.author.views import author
 from blog.commands import register_commands
 from blog.config import DevConfig
 from blog.extensions import db, migrate
 from blog.main.view import main
-from blog.post.views import post
 from blog.user.views import user
 
 
@@ -26,6 +27,8 @@ def register_extensions(app: Flask):
 
 def register_blueprints(app: Flask) -> None:
     app.register_blueprint(user)
-    app.register_blueprint(post)
+    app.register_blueprint(author)
     app.register_blueprint(auth)
     app.register_blueprint(main)
+    app.register_blueprint(article)
+
