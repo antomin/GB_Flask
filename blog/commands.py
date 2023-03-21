@@ -2,7 +2,7 @@ from flask import Flask
 from werkzeug.security import generate_password_hash
 
 from blog.extensions import db
-from blog.models import User
+from blog.models import Tag, User
 
 
 def register_commands(app: Flask) -> None:
@@ -18,7 +18,7 @@ def register_commands(app: Flask) -> None:
 
         try:
             db.session.add(
-                User(email='admin@admin.ru', is_staff=True, password=generate_password_hash('admin'), first_name='Admin')
+                User(email=_email, is_staff=True, password=generate_password_hash(_password), first_name='Admin')
             )
 
             db.session.commit()
@@ -29,4 +29,13 @@ def register_commands(app: Flask) -> None:
 
         print(f'Администратор создан!')
 
+    @app.cli.command('create_tags')
+    def create_tags():
+        for item in ("flask", "django", "python", "sqlalchemy","news",):
+            tag = Tag(name=item)
+            db.session.add(tag)
+        db.session.commit()
+        print('Done!')
+
+    app.cli.add_command(create_tags)
     app.cli.add_command(create_admin)

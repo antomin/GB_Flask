@@ -1,11 +1,12 @@
 from flask import Blueprint, redirect, render_template, request, url_for
 from flask_login import current_user, login_required
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy.orm import joinedload
 from werkzeug.exceptions import NotFound
 
 from blog.extensions import db
 from blog.forms import CreateArticleForm
-from blog.models import Article, Author
+from blog.models import Article, Tag
 
 article = Blueprint('article', __name__, url_prefix='/articles', static_folder='../static')
 
@@ -18,7 +19,7 @@ def article_list():
 
 @article.route('/<int:pk>')
 def get_article(pk: int):
-    _article = Article.query.filter_by(id=pk).one_or_none()
+    _article = Article.query.filter_by(id=pk).options(joinedload(Article.tags)).one_or_none()
 
     if not _article:
         return NotFound('Автор не найден.')
@@ -33,9 +34,15 @@ def create_article():
         return redirect('author.create')
 
     form = CreateArticleForm(request.form)
+    form.tags.choices = [(tag.id, tag.name) for tag in Tag.query.order_by('name')]
 
     if request.method == 'POST' and form.validate_on_submit():
         new_article = Article(title=form.title.data, text=form.text.data, author_id=current_user.author.id)
+
+        if form.tags.data:
+            selected_tags = Tag.query.filter(Tag.id.in_(form.tags.data))
+            for tag in selected_tags:
+                new_article.tags.append(tag)
 
         db.session.add(new_article)
 
