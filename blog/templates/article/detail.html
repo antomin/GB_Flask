@@ -7,6 +7,15 @@
     <div class="container-fluid py-5">
         <h1 class="display-5 fw-bold">{{ article.title }}</h1>
         <p class="col-md-8 fs-4">{{ article.text }}</p>
+
+        {% if article.tags %}
+            <div class="mb-5">
+                {% for tag in article.tags %}
+                    <span class="badge text-bg-secondary">#{{ tag.name }}</span>
+                {% endfor %}
+            </div>
+        {% endif %}
+
         <div class="d-flex justify-content-between">
             <p>
                 <a class="fst-italic text-secondary" href="/authors/{{ article.author.id }}">
