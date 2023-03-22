@@ -7,16 +7,16 @@ from blog.extensions import db
 from blog.forms import RegisterAuthorForm
 from blog.models import Article, Author
 
-author = Blueprint('author', __name__, url_prefix='/authors', static_folder='../static')
+author_app = Blueprint('author_app', __name__, url_prefix='/authors', static_folder='../static')
 
 
-@author.route('/')
+@author_app.route('/')
 def author_list():
     authors = Author.query.all()
     return render_template('author/list.html', authors=authors)
 
 
-@author.route('/<int:pk>')
+@author_app.route('/<int:pk>')
 def get_author(pk: int):
     _author = Author.query.filter_by(id=pk).one_or_none()
     articles = Article.query.filter_by(author_id=_author.id)
@@ -28,7 +28,7 @@ def get_author(pk: int):
 
 
 @login_required
-@author.route('/create', methods=['GET', 'POST'], endpoint='create')
+@author_app.route('/create', methods=['GET', 'POST'], endpoint='create')
 def create_author():
     if current_user.author:
         return redirect('main.index')
@@ -48,6 +48,6 @@ def create_author():
             form.submit.errors.append(error)
             return render_template('author/create.html', form=form)
         else:
-            return redirect(url_for('main.index'))
+            return redirect(url_for('main_app.index'))
 
     return render_template('author/create.html', form=form)

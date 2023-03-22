@@ -8,16 +8,16 @@ from blog.extensions import db
 from blog.forms import CreateArticleForm
 from blog.models import Article, Tag
 
-article = Blueprint('article', __name__, url_prefix='/articles', static_folder='../static')
+article_app = Blueprint('article_app', __name__, url_prefix='/articles', static_folder='../static')
 
 
-@article.route('/')
+@article_app.route('/')
 def article_list():
     articles = Article.query.all()
     return render_template('article/list.html', articles=articles)
 
 
-@article.route('/<int:pk>')
+@article_app.route('/<int:pk>')
 def get_article(pk: int):
     _article = Article.query.filter_by(id=pk).options(joinedload(Article.tags)).one_or_none()
 
@@ -28,10 +28,10 @@ def get_article(pk: int):
 
 
 @login_required
-@article.route('/create', methods=['GET', 'POST'], endpoint='create')
+@article_app.route('/create', methods=['GET', 'POST'], endpoint='create')
 def create_article():
     if not current_user.author:
-        return redirect('author.create')
+        return redirect(url_for('author_app.create'))
 
     form = CreateArticleForm(request.form)
     form.tags.choices = [(tag.id, tag.name) for tag in Tag.query.order_by('name')]
@@ -52,6 +52,6 @@ def create_article():
             form.submit.errors.append(error)
             return render_template('article/create.html', form=form)
         else:
-            return redirect(url_for('article.article_list'))
+            return redirect(url_for('article_app.article_list'))
 
     return render_template('article/create.html', form=form)

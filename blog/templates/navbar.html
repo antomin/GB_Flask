@@ -4,8 +4,8 @@
 
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
                 <li><a href="/" class="nav-link px-2 text-secondary">GeekBlog</a></li>
-                <li><a href="{{ url_for('author.author_list') }}" class="nav-link px-2 text-white">Авторы</a></li>
-                <li><a href="{{ url_for('article.article_list') }}" class="nav-link px-2 text-white">Статьи</a></li>
+                <li><a href="{{ url_for('author_app.author_list') }}" class="nav-link px-2 text-white">Авторы</a></li>
+                <li><a href="{{ url_for('article_app.article_list') }}" class="nav-link px-2 text-white">Статьи</a></li>
             </ul>
 
             <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
@@ -15,22 +15,27 @@
 
             <div class="text-end">
                 {% if current_user.is_authenticated %}
+                    {% if current_user.is_staff %}
+                        <a class="me-2 text-decoration-none text-light" href="{{ url_for('admin.index') }}">
+                            Админ панель
+                        </a>
+                    {% endif %}
                     {% if current_user.author %}
-                        <a class="me-2 text-decoration-none text-light" href="{{ url_for('article.create') }}">
+                        <a class="me-2 text-decoration-none text-light" href="{{ url_for('article_app.create') }}">
                             Написать статью
                         </a>
                     {% else %}
-                        <a class="me-2 text-decoration-none text-light" href="{{ url_for('author.create') }}">
+                        <a class="me-2 text-decoration-none text-light" href="{{ url_for('author_app.create') }}">
                             Стать автором
                         </a>
                     {% endif %}
 
-                    <a class="btn btn-outline-light me-2" href="{{ url_for('auth.logout') }}">
+                    <a class="btn btn-outline-light me-2" href="{{ url_for('auth_app.logout') }}">
                         Выход ({{ current_user.first_name if current_user.first_name else current_user.email }})
                     </a>
                 {% else %}
-                    <a class="btn btn-outline-light me-2" href="{{ url_for('auth.login') }}">Вход</a>
-                    <a class="btn btn-warning" href="{{ url_for('auth.registration') }}">Регистрация</a>
+                    <a class="btn btn-outline-light me-2" href="{{ url_for('auth_app.login') }}">Вход</a>
+                    <a class="btn btn-warning" href="{{ url_for('auth_app.registration') }}">Регистрация</a>
                 {% endif %}
             </div>
         </div>
