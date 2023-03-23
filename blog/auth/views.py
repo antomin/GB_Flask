@@ -8,7 +8,7 @@ from blog.extensions import db
 from blog.forms import LoginForm, RegisterForm
 from blog.models import User
 
-auth = Blueprint('auth', __name__, static_folder='static')
+auth_app = Blueprint('auth_app', __name__, static_folder='static')
 
 login_manager = LoginManager()
 login_manager.login_view = 'auth.login'
@@ -22,13 +22,13 @@ def get_user(pk: int) -> User:
 
 @login_manager.unauthorized_handler
 def unauthorized():
-    return redirect(url_for('auth.login'))
+    return redirect(url_for('auth_app.login'))
 
 
-@auth.route('/login', methods=['GET', 'POST'], endpoint='login')
+@auth_app.route('/login', methods=['GET', 'POST'], endpoint='login')
 def login():
     if current_user.is_authenticated:
-        return redirect('main.index')
+        return redirect(url_for('main_app.index'))
 
     form = LoginForm(request.form)
 
@@ -37,7 +37,7 @@ def login():
 
         if user and check_password_hash(user.password, form.password.data):
             login_user(user)
-            return redirect(url_for('main.index'))
+            return redirect(url_for('main_app.index'))
 
         form.submit.errors.append('Неверный логин или пароль.')
         return render_template('auth/login.html', form=form)
@@ -45,17 +45,17 @@ def login():
     return render_template('auth/login.html', form=form)
 
 
-@auth.route('/logout', endpoint='logout')
+@auth_app.route('/logout', endpoint='logout')
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for('main.index'))
+    return redirect(url_for('main_app.index'))
 
 
-@auth.route('/registration', methods=['GET', 'POST'], endpoint='registration')
+@auth_app.route('/registration', methods=['GET', 'POST'], endpoint='registration')
 def register():
     if current_user.is_authenticated:
-        return redirect('main.index')
+        return redirect(url_for('main_app.index'))
 
     form = RegisterForm(request.form)
 
@@ -76,6 +76,6 @@ def register():
             return render_template('auth/registration.html', form=form)
         else:
             login_user(new_user)
-            return redirect(url_for('main.index'))
+            return redirect(url_for('main_app.index'))
 
     return render_template('auth/registration.html', form=form)
