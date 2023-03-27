@@ -1,6 +1,7 @@
 from flask import Flask
 
 from blog.admin import admin
+from blog.api import init_api
 from blog.article.views import article_app
 from blog.auth.views import auth_app, login_manager
 from blog.author.views import author_app
@@ -17,10 +18,11 @@ def create_app() -> Flask:
     app.config.from_object(DevConfig)
     register_extensions(app)
     register_blueprints(app)
+    init_api(app)
     return app
 
 
-def register_extensions(app: Flask):
+def register_extensions(app: Flask) -> None:
     db.init_app(app)
     migrate.init_app(app, db, compare_type=True)
     login_manager.init_app(app)
@@ -33,3 +35,5 @@ def register_blueprints(app: Flask) -> None:
     app.register_blueprint(auth_app)
     app.register_blueprint(main_app)
     app.register_blueprint(article_app)
+
+

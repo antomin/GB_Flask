@@ -132,3 +132,4 @@ dmypy.json
 .idea/
 test.py
 pg_data
+*.db
