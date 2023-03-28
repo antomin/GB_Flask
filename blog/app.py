@@ -1,3 +1,4 @@
+from combojsonapi.event import EventPlugin
 from combojsonapi.spec import ApiSpecPlugin
 from flask import Flask
 
@@ -41,6 +42,7 @@ def register_blueprints(app: Flask) -> None:
 
 def register_api(app: Flask) -> None:
     api.plugins = [
+        EventPlugin(),
         ApiSpecPlugin(
             app=app,
             tags={
