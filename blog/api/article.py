@@ -13,7 +13,7 @@ class ArticleListEvents(EventsResource):
 
 
 class ArticleList(ResourceList):
-    events = ArticleListEvents
+    # events = ArticleListEvents
     schema = ArticleSchema
     data_layer = {
         'session': db.session,

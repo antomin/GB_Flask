@@ -5,9 +5,9 @@ from marshmallow_jsonapi import Schema, fields
 class UserSchema(Schema):
     class Meta:
         type_ = 'user'
-        self_url = 'user_detail'
-        self_url_kwargs = {'id': '<id>'}
-        self_url_many = 'user_list'
+        self_view = 'user_detail'
+        self_view_kwargs = {'id': '<id>'}
+        self_view_many = 'user_list'
 
     id = fields.Integer(as_string=True)
     first_name = fields.String(allow_none=False)
@@ -18,8 +18,8 @@ class UserSchema(Schema):
     author = Relationship(
         nested='AuthorSchema',
         attribute='author',
-        related_url='author_detail',
-        related_url_kwargs={'id': '<int:id>'},
+        related_view='author_detail',
+        related_view_kwargs={'id': '<int:id>'},
         schema='AuthorSchema',
         type_='author',
         many=False
