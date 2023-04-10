@@ -1,4 +1,5 @@
 from combojsonapi.event import EventPlugin
+from combojsonapi.permission import PermissionPlugin
 from combojsonapi.spec import ApiSpecPlugin
 from flask import Flask
 
@@ -42,7 +43,8 @@ def register_blueprints(app: Flask) -> None:
 
 def register_api(app: Flask) -> None:
     api.plugins = [
-        EventPlugin(),
+        # EventPlugin(),
+        PermissionPlugin(strict=False),
         ApiSpecPlugin(
             app=app,
             tags={
@@ -51,10 +53,9 @@ def register_api(app: Flask) -> None:
                 'Author': 'Author API',
                 'User': 'User API'
             }
-        )
-    ]
+        ),
 
-    api.init_app(app)
+    ]
 
     api.route(TagList, 'tag_list', '/api/tags/', tag='Tag')
     api.route(TagDetail, 'tag_detail', '/api/tags/<int:id>/', tag='Tag')
@@ -64,3 +65,5 @@ def register_api(app: Flask) -> None:
     api.route(AuthorDetail, 'author_detail', '/api/authors/<int:id>/', tag='Author')
     api.route(UserList, 'user_list', '/api/users/', tag='User')
     api.route(UserDetail, 'user_detail', '/api/users/<int:id>/', tag='User')
+
+    api.init_app(app)

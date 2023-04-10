@@ -6,11 +6,9 @@ from blog.models import Article, Author
 from blog.schemas import AuthorSchema
 
 
-class AuthorDetailEvent(EventsResource):
+class AuthorDetailEvents(EventsResource):
     def event_get_articles_count(self, **kwargs):
-        return {
-            'count': Article.query.filter(Article.author_id == kwargs.get('id')).count()
-        }
+        return {"count": Article.query.filter(Article.author_id == kwargs["id"]).count()}
 
 
 class AuthorList(ResourceList):
@@ -22,7 +20,7 @@ class AuthorList(ResourceList):
 
 
 class AuthorDetail(ResourceDetail):
-    events = AuthorDetailEvent
+    events = AuthorDetailEvents
     schema = AuthorSchema
     data_layer = {
         'session': db.session,

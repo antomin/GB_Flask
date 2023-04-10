@@ -28,7 +28,7 @@ def get_article(pk: int):
 
 
 @login_required
-@article_app.route('/create', methods=['GET', 'POST'], endpoint='create')
+@article_app.route('/create', methods=['GET', 'POST'])
 def create_article():
     if not current_user.author:
         return redirect(url_for('author_app.create'))
