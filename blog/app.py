@@ -19,7 +19,7 @@ from blog.user.views import user_app
 def create_app() -> Flask:
     app = Flask(__name__)
     register_commands(app)
-    app.config.from_object(BaseConfig)
+    app.config.from_object(DevConfig)
     register_extensions(app)
     register_blueprints(app)
     register_api(app)
