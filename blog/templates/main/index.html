@@ -3,12 +3,20 @@
 {% block title %}GeekBlog{% endblock %}
 
 {% block body %}
-    <h1>
-        Hello,
-        {% if current_user.is_authenticated %}
-            {{ current_user.first_name if current_user.first_name else current_user.email }}
-        {% else %}
-            Anon
-        {% endif %}
-    </h1>
+
+    <h1 class="h1 text-center mb-5 mt-3">Новые статьи:</h1>
+
+    <div class="d-flex flex-row justify-content-around">
+        {% for article in new_articles[::-1] %}
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h4 class="card-title">{{ article.attributes.title }}</h4>
+                    <p class="card-text">{{ article.attributes.text[:50] }}...</p>
+                    <div class="text-secondary fst-italic mb-3 fs-6">{{ article.attributes.created_at }}</div>
+                    <a href="{{ url_for('article_app.get_article', pk=article.id) }}" class="card-link text-decoration-none">Читать</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
 {% endblock %}

@@ -28,7 +28,7 @@ def get_author(pk: int):
 
 
 @login_required
-@author_app.route('/create', methods=['GET', 'POST'], endpoint='create')
+@author_app.route('/create', methods=['GET', 'POST'], endpoint='create_author')
 def create_author():
     if current_user.author:
         return redirect('main.index')
