@@ -10,7 +10,7 @@ from blog.article.views import article_app
 from blog.auth.views import auth_app, login_manager
 from blog.author.views import author_app
 from blog.commands import register_commands
-from blog.config import DevConfig
+from blog.config import DevConfig, BaseConfig
 from blog.extensions import api, db, migrate
 from blog.main.view import main_app
 from blog.user.views import user_app
@@ -19,7 +19,7 @@ from blog.user.views import user_app
 def create_app() -> Flask:
     app = Flask(__name__)
     register_commands(app)
-    app.config.from_object(DevConfig)
+    app.config.from_object(BaseConfig)
     register_extensions(app)
     register_blueprints(app)
     register_api(app)
