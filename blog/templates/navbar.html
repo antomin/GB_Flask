@@ -21,11 +21,11 @@
                         </a>
                     {% endif %}
                     {% if current_user.author %}
-                        <a class="me-2 text-decoration-none text-light" href="{{ url_for('article_app.create') }}">
+                        <a class="me-2 text-decoration-none text-light" href="{{ url_for('article_app.create_article') }}">
                             Написать статью
                         </a>
                     {% else %}
-                        <a class="me-2 text-decoration-none text-light" href="{{ url_for('author_app.create') }}">
+                        <a class="me-2 text-decoration-none text-light" href="{{ url_for('author_app.create_author') }}">
                             Стать автором
                         </a>
                     {% endif %}
